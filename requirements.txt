@@ -1,0 +1,4 @@
+peft
+huggingface-hub
+transformers
+bitsandbytes
