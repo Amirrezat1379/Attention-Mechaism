@@ -25,9 +25,13 @@ for file in files:
 datas = {k: v for k, v in sorted(datas.items(), key=lambda item: int(eval(item[0][2:])))}
 fig1, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 fig2, (ax3, ax4) = plt.subplots(1, 2, figsize=(14, 6))
+fig1.suptitle("Time and Memory")
+fig2.suptitle("Accuracy and Perplexity")
 keys = list(datas.keys())
 values = list(datas.values())
-datas = {"Original LLAMA":{'Perplexity':[], 'Seq_Len':[], 'AvgLatency(ms)':[], 'MemoryAllocated(GB)':[], 'Accuracy(%)':[]}, "Performer LLAMA": {'Perplexity':[], 'Seq_Len':[], 'AvgLatency(ms)':[], 'MemoryAllocated(GB)':[], 'Accuracy(%)':[]}}
+datas = {"Original LLAMA":{'Perplexity':[], 'Seq_Len':[], 'AvgLatency(ms)':[], 'MemoryAllocated(GB)':[], 'Accuracy(%)':[]},
+         "Unfine-tunned Performer LLAMA": {'Perplexity':[], 'Seq_Len':[], 'AvgLatency(ms)':[], 'MemoryAllocated(GB)':[], 'Accuracy(%)':[]},
+         "Fine-tunned Performer LLAMA": {'Perplexity':[], 'Seq_Len':[], 'AvgLatency(ms)':[], 'MemoryAllocated(GB)':[], 'Accuracy(%)':[]}}
 for i in range(len(values)):
     if keys[i][0] == 'o':
         datas['Original LLAMA']['Seq_Len'].append(int(eval(keys[i][2:])))
@@ -35,12 +39,18 @@ for i in range(len(values)):
         datas['Original LLAMA']['MemoryAllocated(GB)'].append(values[i]['MemoryAllocated(GB)'])
         datas['Original LLAMA']['Accuracy(%)'].append(values[i]['Accuracy(%)'])
         datas['Original LLAMA']['Perplexity'].append(values[i]['Perplexity'])
+    elif keys[i][0] == 'u':
+        datas['Unfine-tunned Performer LLAMA']['Seq_Len'].append(int(eval(keys[i][2:])))
+        datas['Unfine-tunned Performer LLAMA']['AvgLatency(ms)'].append(values[i]['AvgLatency(ms)'])
+        datas['Unfine-tunned Performer LLAMA']['MemoryAllocated(GB)'].append(values[i]['MemoryAllocated(GB)'])
+        datas['Unfine-tunned Performer LLAMA']['Accuracy(%)'].append(values[i]['Accuracy(%)'])
+        datas['Unfine-tunned Performer LLAMA']['Perplexity'].append(values[i]['Perplexity'])
     else:
-        datas['Performer LLAMA']['Seq_Len'].append(int(eval(keys[i][2:])))
-        datas['Performer LLAMA']['AvgLatency(ms)'].append(values[i]['AvgLatency(ms)'])
-        datas['Performer LLAMA']['MemoryAllocated(GB)'].append(values[i]['MemoryAllocated(GB)'])
-        datas['Performer LLAMA']['Accuracy(%)'].append(values[i]['Accuracy(%)'])
-        datas['Performer LLAMA']['Perplexity'].append(values[i]['Perplexity'])
+        datas['Fine-tunned Performer LLAMA']['Seq_Len'].append(int(eval(keys[i][2:])))
+        datas['Fine-tunned Performer LLAMA']['AvgLatency(ms)'].append(values[i]['AvgLatency(ms)'])
+        datas['Fine-tunned Performer LLAMA']['MemoryAllocated(GB)'].append(values[i]['MemoryAllocated(GB)'])
+        datas['Fine-tunned Performer LLAMA']['Accuracy(%)'].append(values[i]['Accuracy(%)'])
+        datas['Fine-tunned Performer LLAMA']['Perplexity'].append(values[i]['Perplexity'])
 
 keys = list(datas.keys())
 values = list(datas.values())
@@ -70,11 +80,13 @@ ax3.set_ylabel('Accuracy (%)')
 ax3.legend()
 ax3.grid(True, linestyle='--', alpha=0.6)
 
-ax3.set_title('Perplexity vs. Seq Length')
-ax3.set_xlabel('Sequence Length')
-ax3.set_ylabel('Perplexity')
-ax3.legend()
-ax3.grid(True, linestyle='--', alpha=0.6)
+ax4.set_title('Perplexity vs. Seq Length')
+ax4.set_xlabel('Sequence Length')
+ax4.set_ylabel('Perplexity')
+ax4.legend()
+ax4.grid(True, linestyle='--', alpha=0.6)
     
+fig1.savefig("Time and Memory")
+fig2.savefig("Accuracy and Perplexity")
 plt.tight_layout()
 plt.show()
