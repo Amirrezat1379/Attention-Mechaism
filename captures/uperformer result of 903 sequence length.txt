@@ -1,0 +1,1 @@
+{'Perplexity': np.float64(215591.73775501965), 'Accuracy (%)': 0.044282226288926675, 'Avg Latency (ms)': np.float64(603.8368453235161), 'Memory Allocated (GB)': 2.118130176}
